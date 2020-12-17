@@ -1,4 +1,4 @@
-echo off
+@echo off
 set p=C:\ProgramData\Autodesk\ApplicationPlugins
 set q=NwGeoPrimitives
 set d=%p%\%q%.bundle
