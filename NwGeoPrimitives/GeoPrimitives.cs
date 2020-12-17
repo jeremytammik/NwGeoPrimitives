@@ -149,11 +149,16 @@ namespace NwGeoPrimitives
             // in lookup dictionary for later call to
             // GenerateSimplePrimitives
 
-            ComApi.InwOaPath p = frag.path;
-            var a = p.ArrayData;
-            Array b = (Array) a;
-            int len = b.Length;
-            int[] pathArr = b.ToArray<int>();
+            Array a = (Array) (object) frag.path.ArrayData;
+
+            //ComApi.InwOaPath p = frag.path;
+            //var a = p.ArrayData;
+
+            //Array b = (Array) a;
+            //int len = b.Length;
+            //int[] pathArr = b.ToArray<int>();
+
+            int[] pathArr = a.ToArray<int>();
             if( !_pathDict.TryGetValue( pathArr,
               out Stack<ComApi.InwOaFragment3> frags ) )
             {
