@@ -45,13 +45,13 @@ namespace NwGeoPrimitives
       if( parentNode.IsGroup )
       {
         COMApi.InwOaGroup group = (COMApi.InwOaGroup) parentNode;
-        long subNodesCount = group.Children().Count;
+        long n = group.Children().Count;
 
-        for( long subNodeIndex = 1; subNodeIndex <= subNodesCount; subNodeIndex++ )
+        for( long i = 1; i <= n; ++i )
         {
-          COMApi.InwOaNode newNode = group.Children()[ subNodeIndex ];
+          COMApi.InwOaNode newNode = group.Children()[ i ];
 
-          if( (!bFoundFirst) && (subNodesCount > 1) )
+          if( (!bFoundFirst) && (n > 1) )
           {
             bFoundFirst = true;
           }
@@ -60,36 +60,36 @@ namespace NwGeoPrimitives
       }
       else if( parentNode.IsGeometry )
       {
-        long fragsCount = parentNode.Fragments().Count;
-        Debug.WriteLine( "frags count:" + fragsCount.ToString() );
+        long nFrags = parentNode.Fragments().Count;
+        Debug.WriteLine( "frags count:" + nFrags.ToString() );
 
-        for( long fragindex = 1; fragindex <= fragsCount; fragindex++ )
+        for( long i = 1; i <= nFrags; i++ )
         {
           CallbackGeomListener callbkListener = new CallbackGeomListener();
 
           COMApi.InwNodeFragsColl fragsColl = parentNode.Fragments();
-          COMApi.InwOaFragment3 frag = fragsColl[ fragindex ];
+          COMApi.InwOaFragment3 frag = fragsColl[ i ];
 
           frag.GenerateSimplePrimitives(
             COMApi.nwEVertexProperty.eNORMAL,
             callbkListener );
         }
-        fragCount += fragsCount;
-        geoNodeCount += 1;
+        _nFragsTotal += nFrags;
+        ++_nNodesTotal;
       }
     }
 
-    DateTime dt = DateTime.Now;
-    long geoNodeCount = 0;
-    long fragCount = 0;
+    long _nNodesTotal = 0;
+    long _nFragsTotal = 0;
 
     public override int Execute( params string[] ps )
     {
-      geoNodeCount = 0;
-      fragCount = 0;
-      dt = DateTime.Now;
+      _nNodesTotal = 0;
+      _nFragsTotal = 0;
+      DateTime dt = DateTime.Now;
 
-      //convert to COM selection 
+      // Convert to COM selection
+
       COMApi.InwOpState oState = ComBridge.State;
       walkNode( oState.CurrentPartition, false );
 
@@ -98,7 +98,7 @@ namespace NwGeoPrimitives
 
       string s = string.Format(
         "Retrieved {0} geometry nodes and {1} fragments in {2} milliseconds.",
-        geoNodeCount, fragCount, ms.ToString( "0.##" ) );
+        _nNodesTotal, _nFragsTotal, ms.ToString( "0.##" ) );
       Debug.Print( s );
       return 0;
     }
