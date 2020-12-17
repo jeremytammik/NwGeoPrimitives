@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage > 
+  <Components Description="NwGeoPrimitives">
+    <RuntimeRequirements OS="Win64" Platform="NAVMAN" SeriesMin="Nw18" SeriesMax="Nw18" />
+    <ComponentEntry AppType="ManagedPlugin" ModuleName="./Contents/NwGeoPrimitives.dll">    
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>
