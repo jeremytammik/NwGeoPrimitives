@@ -1,50 +1,43 @@
-﻿using System;
+﻿#region Namespaces
+using System;
 using System.Diagnostics;
-
-//using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.Plugins;
-//using Autodesk.Navisworks.Internal.ApiImplementation;
-
 using ComBridge = Autodesk.Navisworks.Api.ComApi.ComApiBridge;
 using COMApi = Autodesk.Navisworks.Api.Interop.ComApi;
 using NwVertex = Autodesk.Navisworks.Api.Interop.ComApi.InwSimpleVertex;
+#endregion // Namespaces
 
-namespace GeoPrimitives
+namespace NwGeoPrimitives
 {
-  class CallbackGeomListener : COMApi.InwSimplePrimitivesCB
-  {
-    public void Line(
-      NwVertex v1,
-      NwVertex v2 )
-    {
-      // do your work 
-    }
-
-    public void Point(
-      NwVertex v1 )
-    {
-      // do your work  
-    }
-
-    public void SnapPoint(
-      NwVertex v1 )
-    {
-      // do your work  
-    }
-
-    public void Triangle(
-      NwVertex v1,
-      NwVertex v2,
-      NwVertex v3 )
-    {
-      // do your work  
-    }
-  }
-
-
-  [PluginAttribute( "GeoPrimitives", "ADSK", ToolTip = "GeoPrimitives", DisplayName = "GeoPrimitives" )]
+  [PluginAttribute( "NwGeoPrimitives", "JT__", ToolTip = "NwGeoPrimitives", DisplayName = "NwGeoPrimitives" )]
   public class GeoPrimitivesPlugin : AddInPlugin
   {
+    class CallbackGeomListener : COMApi.InwSimplePrimitivesCB
+    {
+      public void Line( NwVertex v1, NwVertex v2 )
+      {
+        // do your work 
+      }
+
+      public void Point( NwVertex v1 )
+      {
+        // do your work  
+      }
+
+      public void SnapPoint( NwVertex v1 )
+      {
+        // do your work  
+      }
+
+      public void Triangle(
+        NwVertex v1,
+        NwVertex v2,
+        NwVertex v3 )
+      {
+        // do your work  
+      }
+    }
+
     void walkNode(
       COMApi.InwOaNode parentNode,
       bool bFoundFirst )
