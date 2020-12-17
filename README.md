@@ -2,8 +2,11 @@
 
 NavisWorks .NET API plugin to traverse all nodes and extract geometrical primitives.
 
-Initial code based on [Navisworks-Geometry-Primitives](https://github.com/xiaodongliang/Navisworks-Geometry-Primitives)
-by [Xiaodong Liang](https://github.com/xiaodongliang).
+Initial code based
+on [Navisworks-Geometry-Primitives](https://github.com/xiaodongliang/Navisworks-Geometry-Primitives)
+by [Xiaodong Liang](https://github.com/xiaodongliang) that
+in turn seems to be based on the NavisWorks COM API sample ActiveXDumpStructureExample,
+cf. *COM/examples/ActiveX/ActiveXDumpStructureExample/Form1.cs*.
 
 
 ## Author
