@@ -9,7 +9,9 @@ using NwVertex = Autodesk.Navisworks.Api.Interop.ComApi.InwSimpleVertex;
 
 namespace NwGeoPrimitives
 {
-  [PluginAttribute( "NwGeoPrimitives", "JT__", ToolTip = "NwGeoPrimitives", DisplayName = "NwGeoPrimitives" )]
+  [PluginAttribute( "NwGeoPrimitives", "JT__", 
+    ToolTip = "Retrieve geometry primitives", 
+    DisplayName = "NwGeoPrimitives" )]
   public class GeoPrimitivesPlugin : AddInPlugin
   {
     class CallbackGeomListener : COMApi.InwSimplePrimitivesCB
