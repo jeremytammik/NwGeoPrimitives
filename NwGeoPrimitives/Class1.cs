@@ -9,8 +9,8 @@ using NwVertex = Autodesk.Navisworks.Api.Interop.ComApi.InwSimpleVertex;
 
 namespace NwGeoPrimitives
 {
-  [PluginAttribute( "NwGeoPrimitives", "JT__", 
-    ToolTip = "Retrieve geometry primitives", 
+  [PluginAttribute( "NwGeoPrimitives", "JT__",
+    ToolTip = "Retrieve geometry primitives",
     DisplayName = "NwGeoPrimitives" )]
   public class GeoPrimitivesPlugin : AddInPlugin
   {
@@ -51,7 +51,7 @@ namespace NwGeoPrimitives
 
         for( long i = 1; i <= n; ++i )
         {
-          COMApi.InwOaNode newNode = group.Children()[ i ];
+          COMApi.InwOaNode newNode = group.Children()[i];
 
           if( (!bFoundFirst) && (n > 1) )
           {
@@ -62,19 +62,23 @@ namespace NwGeoPrimitives
       }
       else if( parentNode.IsGeometry )
       {
-        long nFrags = parentNode.Fragments().Count;
-        Debug.WriteLine( "frags count:" + nFrags.ToString() );
+        CallbackGeomListener cbl 
+          = new CallbackGeomListener();
 
-        for( long i = 1; i <= nFrags; i++ )
+        COMApi.InwNodeFragsColl fragsColl 
+          = parentNode.Fragments();
+
+        long nFrags = fragsColl.Count;
+
+        Debug.WriteLine( "frags count:" 
+          + nFrags.ToString() );
+
+        for( long i = 1; i <= nFrags; ++i )
         {
-          CallbackGeomListener callbkListener = new CallbackGeomListener();
-
-          COMApi.InwNodeFragsColl fragsColl = parentNode.Fragments();
-          COMApi.InwOaFragment3 frag = fragsColl[ i ];
+          COMApi.InwOaFragment3 frag = fragsColl[i];
 
           frag.GenerateSimplePrimitives(
-            COMApi.nwEVertexProperty.eNORMAL,
-            callbkListener );
+            COMApi.nwEVertexProperty.eNORMAL, cbl );
         }
         _nFragsTotal += nFrags;
         ++_nNodesTotal;
@@ -88,6 +92,7 @@ namespace NwGeoPrimitives
     {
       _nNodesTotal = 0;
       _nFragsTotal = 0;
+
       DateTime dt = DateTime.Now;
 
       // Convert to COM selection
