@@ -3,7 +3,7 @@ set p=C:\ProgramData\Autodesk\ApplicationPlugins
 set q=NwGeoPrimitives
 set d=%p%\%q%.bundle
 echo Installing %d%...
-IF EXIST %d% rmdir /S /Q %d%
+if exist %d% rmdir /s /q %d%
 mkdir %d%
 mkdir %d%\Contents
 copy PackageContents.xml %d% 
