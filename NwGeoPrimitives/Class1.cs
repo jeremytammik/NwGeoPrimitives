@@ -16,19 +16,32 @@ namespace NwGeoPrimitives
   {
     class CallbackGeomListener : COMApi.InwSimplePrimitivesCB
     {
+      static public long LineCount { get; set; }
+      static public long PointCount { get; set; }
+      static public long SnapPointCount { get; set; }
+      static public long TriangleCount { get; set; }
+
+      static public void Init()
+      {
+        LineCount = 0;
+        PointCount = 0;
+        SnapPointCount = 0;
+        TriangleCount = 0;
+      }
+
       public void Line( NwVertex v1, NwVertex v2 )
       {
-        // do your work 
+        ++LineCount;
       }
 
       public void Point( NwVertex v1 )
       {
-        // do your work  
+        ++PointCount; 
       }
 
       public void SnapPoint( NwVertex v1 )
       {
-        // do your work  
+        ++SnapPointCount;
       }
 
       public void Triangle(
@@ -36,7 +49,7 @@ namespace NwGeoPrimitives
         NwVertex v2,
         NwVertex v3 )
       {
-        // do your work  
+        ++TriangleCount;
       }
     }
 
@@ -85,13 +98,14 @@ namespace NwGeoPrimitives
       }
     }
 
-    long _nNodesTotal = 0;
-    long _nFragsTotal = 0;
+    long _nNodesTotal;
+    long _nFragsTotal;
 
     public override int Execute( params string[] ps )
     {
       _nNodesTotal = 0;
       _nFragsTotal = 0;
+      CallbackGeomListener.Init();
 
       DateTime dt = DateTime.Now;
 
@@ -107,6 +121,11 @@ namespace NwGeoPrimitives
         "Retrieved {0} geometry nodes and {1} fragments in {2} milliseconds.",
         _nNodesTotal, _nFragsTotal, ms.ToString( "0.##" ) );
       Debug.Print( s );
+
+      Debug.Print( "Line, point, snappoint and triangle counts: {0}, {1}, {2}, {3}",
+        CallbackGeomListener.LineCount, CallbackGeomListener.PointCount,
+        CallbackGeomListener.SnapPointCount, CallbackGeomListener.TriangleCount );
+
       return 0;
     }
   }
