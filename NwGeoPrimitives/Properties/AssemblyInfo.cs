@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NwGeoPrimitives")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription( "NavisWorks .NET API plugin to traverse all nodes and extract geometrical primitives" )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NwGeoPrimitives")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright © by Jeremy Tammik 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,10 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+//
+// History:
+//
+// 2020-12-17 2021.0.0.0 initial commit for Navisworks 2021 based on Navisworks-Geometry-Primitives code
+// 
+[assembly: AssemblyVersion("2021.0.0.0")]
+[assembly: AssemblyFileVersion("2021.0.0.0")]
