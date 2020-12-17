@@ -1,7 +1,6 @@
 ﻿#region Namespaces
 using System;
 using System.Diagnostics;
-using Autodesk.Navisworks.Api.Plugins;
 using ComBridge = Autodesk.Navisworks.Api.ComApi.ComApiBridge;
 using COMApi = Autodesk.Navisworks.Api.Interop.ComApi;
 using NwVertex = Autodesk.Navisworks.Api.Interop.ComApi.InwSimpleVertex;
@@ -9,10 +8,7 @@ using NwVertex = Autodesk.Navisworks.Api.Interop.ComApi.InwSimpleVertex;
 
 namespace NwGeoPrimitives
 {
-  [PluginAttribute( "NwGeoPrimitives", "JT__",
-    ToolTip = "Retrieve geometry primitives",
-    DisplayName = "NwGeoPrimitives" )]
-  public class GeoPrimitivesPlugin : AddInPlugin
+  public class GeoPrimitives
   {
     class CallbackGeomListener : COMApi.InwSimplePrimitivesCB
     {
@@ -101,7 +97,7 @@ namespace NwGeoPrimitives
     long _nNodesTotal;
     long _nFragsTotal;
 
-    public override int Execute( params string[] ps )
+    public void Execute()
     {
       _nNodesTotal = 0;
       _nFragsTotal = 0;
@@ -125,8 +121,6 @@ namespace NwGeoPrimitives
       Debug.Print( "Line, point, snappoint and triangle counts: {0}, {1}, {2}, {3}",
         CallbackGeomListener.LineCount, CallbackGeomListener.PointCount,
         CallbackGeomListener.SnapPointCount, CallbackGeomListener.TriangleCount );
-
-      return 0;
     }
   }
 }
