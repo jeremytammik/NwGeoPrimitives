@@ -48,7 +48,7 @@ namespace NwGeoPrimitives
       {
         ModelItem rootItem = model.RootItem;
         ModelItemEnumerableCollection mis = rootItem.DescendantsAndSelf;
-        Debug.Print( "  {0}: {1}", model.FileName, mis.Count() );
+        Debug.Print( "  {0}: {1} model items", model.FileName, mis.Count() );
         List<ModelItem> migeos = new List<ModelItem>();
         foreach( ModelItem mi in mis )
         {
@@ -62,7 +62,7 @@ namespace NwGeoPrimitives
             migeos.Add( mi );
           }
         }
-        Debug.Print( "  has geometry: {0}", migeos.Count() );
+        Debug.Print( "  {0} model items have geometry:", migeos.Count() );
         foreach( ModelItem mi in migeos )
         {
           Debug.Print(

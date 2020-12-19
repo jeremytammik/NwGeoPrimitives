@@ -110,8 +110,8 @@ namespace NwGeoPrimitives
       // https://adndevblog.typepad.com/aec/2012/05/navisworks-net-api-properties.html
 
       PropertyCategoryCollection pcs = mi.PropertyCategories;
-      int nPropertyCategories = pcs.Count<PropertyCategory>();
-      Debug.Print( "{0} property categories:" );
+      int n = pcs.Count<PropertyCategory>();
+      Debug.Print( "{0} property categories:", n );
       foreach( PropertyCategory pc in pcs )
       {
         Debug.Print( "{0} ({1})", pc.DisplayName, pc.Name );
