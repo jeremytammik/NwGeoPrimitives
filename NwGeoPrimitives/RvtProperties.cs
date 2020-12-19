@@ -121,9 +121,9 @@ namespace NwGeoPrimitives
           VariantData v = dp.Value;
           VariantDataType t = v.DataType;
 
-          Debug.Print( "  {0} ({1}) = {2}",
+          Debug.Print( "  {0} ({1}) = {2} ({3})",
             dp.DisplayName, dp.Name,
-            GetPropertyValue( dp, true ) );
+            GetPropertyValue( dp, true ), t.ToString() );
         }
       }
     }
@@ -141,23 +141,46 @@ namespace NwGeoPrimitives
     //   Value( LcOaNat64AttributeValue) : 349818
 
     public int ElementId { get; }
+    public string Level { get; }
 
     public RvtProperties( ModelItem mi )
     {
+      PropertyCategory pc_Item
+        = mi.PropertyCategories.FindCategoryByName(
+          PropertyCategoryNames.Item );
+
+      DataProperty dp
+        = pc_Item.Properties.FindPropertyByName(
+          DataPropertyNames.ItemSourceFileName );
+
+      string source_filename = dp.Value.ToDisplayString();
+
+      Debug.Assert( source_filename.EndsWith( ".rvt" ), 
+        "expected Revit source file" );
+
+      PropertyCategory pc_Element
+        = mi.PropertyCategories
+          .FindCategoryByDisplayName( "Element" );
+
+      dp = pc_Element.Properties
+        .FindPropertyByDisplayName( "Level" );
+
+      NamedConstant nc_level = dp.Value.ToNamedConstant();
+      Level = nc_level.Name; 
+
       PropertyCategory pc_ElementId 
         = mi.PropertyCategories.FindCategoryByName(
           PropertyCategoryNames.RevitElementId );
 
-      DataProperty dp_ElementId 
-        = pc_ElementId.Properties.FindPropertyByName( 
-          DataPropertyNames.RevitElementIdValue );
+      dp = pc_ElementId.Properties.FindPropertyByName( 
+        DataPropertyNames.RevitElementIdValue );
 
-      VariantData v = dp_ElementId.Value;
+      VariantData v = dp.Value;
       Debug.Assert( v.IsDisplayString, 
         "expected Revit element id as DisplayString" );
 
       ElementId = int.Parse( 
-        dp_ElementId.Value.ToDisplayString() );
+        dp.Value.ToDisplayString() );
     }
 
     #region Sample code
