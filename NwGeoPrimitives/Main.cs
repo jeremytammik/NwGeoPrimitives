@@ -48,8 +48,10 @@ namespace NwGeoPrimitives
         Debug.Print( "  {0}: {1}", model.FileName, mis.Count() );
         foreach( ModelItem mi in mis )
         {
-          Debug.Print( "    {0} bb {1}", 
-            mi.ClassDisplayName, 
+          Debug.Print( 
+            "    '{0}' '{1}' '{2}' {3} bb {4}", 
+            mi.DisplayName, mi.ClassDisplayName, 
+            mi.ClassName, mi.HasGeometry,
             Util.BoundingBoxString( mi.BoundingBox() ) );
         }
       }
