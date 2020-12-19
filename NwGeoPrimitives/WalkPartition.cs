@@ -7,6 +7,7 @@ using ComApi = Autodesk.Navisworks.Api.Interop.ComApi;
 using NwVertex = Autodesk.Navisworks.Api.Interop.ComApi.InwSimpleVertex;
 using System.Collections.Generic;
 using Autodesk.Navisworks.Api;
+using Autodesk.Navisworks.Api.DocumentParts;
 #endregion // Namespaces
 
 namespace NwGeoPrimitives
@@ -23,7 +24,7 @@ namespace NwGeoPrimitives
     }
   }
 
-  public class GeoPrimitives
+  public class WalkPartition
   {
     #region GetSortedFragments
     // from thread on Faster primitive data extraction:

@@ -3,6 +3,7 @@ using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.DocumentParts;
 using Autodesk.Navisworks.Api.Plugins;
 using System.Diagnostics;
+using System.Linq;
 #endregion // Namespaces
 
 namespace NwGeoPrimitives
@@ -28,12 +29,25 @@ namespace NwGeoPrimitives
       BoundingBox3D bb = doc.GetBoundingBox( ignoreHidden );
       Point3D min = bb.Min;
       Point3D max = bb.Max;
+      int nModels = models.Count;
 
-      Debug.Print( "{0}: sheet {1}, bounding box {2}",
-        title, currentSheetId, Util.BoundingBoxString( bb ) );
+      Debug.Print( "{0}: sheet {1}, bounding box {2}, {3} model{4}",
+        title, currentSheetId, Util.BoundingBoxString( bb ),
+        nModels, Util.PluralSuffix( nModels ) );
 
-      GeoPrimitives gp = new GeoPrimitives();
-      gp.Execute();
+      // First attempt, based on Navisworks-Geometry-Primitives,
+      // using walkNode oState.CurrentPartition:
+
+      //WalkPartition wp = new WalkPartition();
+      //wp.Execute();
+
+
+      foreach( Model model in models )
+      {
+        ModelItem rootItem = model.RootItem;
+        ModelItemEnumerableCollection mis = rootItem.DescendantsAndSelf;
+        Debug.Print( "{0}: {1}", model.FileName, mis.Count() );
+      }
       return 0;
     }
   }
