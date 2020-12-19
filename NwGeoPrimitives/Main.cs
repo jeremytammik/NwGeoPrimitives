@@ -41,12 +41,17 @@ namespace NwGeoPrimitives
       //WalkPartition wp = new WalkPartition();
       //wp.Execute();
 
-
       foreach( Model model in models )
       {
         ModelItem rootItem = model.RootItem;
         ModelItemEnumerableCollection mis = rootItem.DescendantsAndSelf;
         Debug.Print( "  {0}: {1}", model.FileName, mis.Count() );
+        foreach( ModelItem mi in mis )
+        {
+          Debug.Print( "    {0}: {1} bb {2}", 
+            mi.ClassDisplayName, 
+            Util.BoundingBoxString( mi.BoundingBox() ) );
+        }
       }
       return 0;
     }
