@@ -2,6 +2,7 @@
 using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.DocumentParts;
 using Autodesk.Navisworks.Api.Plugins;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 #endregion // Namespaces
@@ -41,18 +42,41 @@ namespace NwGeoPrimitives
       //WalkPartition wp = new WalkPartition();
       //wp.Execute();
 
+      List<string> Categories = new List<string>();
+
       foreach( Model model in models )
       {
         ModelItem rootItem = model.RootItem;
         ModelItemEnumerableCollection mis = rootItem.DescendantsAndSelf;
         Debug.Print( "  {0}: {1}", model.FileName, mis.Count() );
+        List<ModelItem> migeos = new List<ModelItem>();
         foreach( ModelItem mi in mis )
         {
-          Debug.Print( 
-            "    '{0}' '{1}' '{2}' {3} bb {4}", 
+          Debug.Print(
+            "    '{0}' '{1}' '{2}' has geo {3}", 
             mi.DisplayName, mi.ClassDisplayName, 
+            mi.ClassName, mi.HasGeometry );
+
+          if( mi.HasGeometry )
+          {
+            migeos.Add( mi );
+          }
+        }
+        Debug.Print( "  has geometry: {0}", migeos.Count() );
+        foreach( ModelItem mi in migeos )
+        {
+          Debug.Print(
+            "    '{0}' '{1}' '{2}' {3} bb {4}",
+            mi.DisplayName, mi.ClassDisplayName,
             mi.ClassName, mi.HasGeometry,
             Util.BoundingBoxString( mi.BoundingBox() ) );
+
+          if( "Floor" == mi.DisplayName )
+          {
+            RvtProperties.DumpProperties( mi );
+            RvtProperties props = new RvtProperties( mi );
+            int id = props.ElementId;
+          }
         }
       }
       return 0;

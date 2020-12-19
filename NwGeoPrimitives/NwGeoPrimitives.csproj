@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IterateModels.cs" />
+    <Compile Include="RvtProperties.cs" />
     <Compile Include="WalkPartition.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
