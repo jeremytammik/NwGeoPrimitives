@@ -8,6 +8,96 @@ namespace NwGeoPrimitives
 {
   class RvtProperties
   {
+    object GetPropertyValue( DataProperty dp, bool return_string )
+    {
+      VariantData v = dp.Value;
+      VariantDataType t = v.DataType;
+      object o = null;
+      switch( t )
+      {
+        // Empty. No data stored.
+        case VariantDataType.None:
+          o = return_string ? "<null>" : null;
+          break;
+        // Unitless double value
+        case VariantDataType.Double:
+          o = return_string
+            ? (object) Util.RealString( v.ToDouble() )
+            : v.ToDouble();
+          break;
+        // Unitless 32 bit integer value
+        case VariantDataType.Int32:
+          o = return_string
+            ? (object) v.ToInt32().ToString()
+            : v.ToInt32();
+          break;
+        // Boolean (true/false) value
+        case VariantDataType.Boolean:
+          o = return_string
+            ? (object) (v.ToBoolean() ? "true" : "false")
+            : v.ToBoolean();
+          break;
+        // String intended for display to the end user (normally localized)
+        case VariantDataType.DisplayString:
+          o = v.ToDisplayString();
+          break;
+        // A specific date and time (usually UTC)
+        case VariantDataType.DateTime:
+          o = return_string
+            ? (object) v.ToDateTime().ToShortTimeString()
+            : v.ToDateTime();
+          break;
+        // A double that represents a length (specific units depend on context)
+        case VariantDataType.DoubleLength:
+          o = return_string
+            ? (object) Util.RealString( v.ToDoubleLength() )
+            : v.ToDoubleLength();
+          break;
+        // A double that represents an angle in radians
+        case VariantDataType.DoubleAngle:
+          o = return_string
+            ? (object) Util.RealString( v.ToDoubleAngle() )
+            : v.ToDoubleAngle();
+          break;
+        // A named constant
+        case VariantDataType.NamedConstant:
+          o = return_string
+            ? (object) v.ToNamedConstant().ToString()
+            : v.ToNamedConstant();
+          break;
+        // String intended to be used as a programmatic identifier. 7-bit ASCII characters
+        // only.
+        case VariantDataType.IdentifierString:
+          o = v.ToIdentifierString();
+          break;
+        // A double that species an area (specific units depend on context)
+        case VariantDataType.DoubleArea:
+          o = return_string
+            ? (object) Util.RealString( v.ToDoubleArea() )
+            : v.ToDoubleArea();
+          break;
+        // A double that species a volume (specific units depend on context)
+        case VariantDataType.DoubleVolume:
+          o = return_string
+            ? (object) Util.RealString( v.ToDoubleVolume() )
+            : v.ToDoubleVolume();
+          break;
+        // A 3D point value
+        case VariantDataType.Point3D:
+          o = return_string
+            ? (object) Util.PointString( v.ToPoint3D() )
+            : v.ToPoint3D();
+          break;
+        // A 2D point value
+        case VariantDataType.Point2D:
+          o = return_string
+            ? (object) Util.PointString( v.ToPoint2D() )
+            : v.ToPoint2D();
+          break;
+      }
+      return o;
+    }
+
     // Properties seen on a Revit family instance:
     //
     // Item( LcOaNode)
@@ -32,12 +122,21 @@ namespace NwGeoPrimitives
         = pc_ElementId.Properties.FindPropertyByName( 
           DataPropertyNames.RevitElementIdValue );
 
-      ElementId = dp_ElementId.Value.ToInt32();
+      VariantData v = dp_ElementId.Value;
+      Debug.Assert( v.IsDisplayString, 
+        "expected Revit element id as DisplayString" );
+
+      ElementId = int.Parse( 
+        dp_ElementId.Value.ToDisplayString() );
     }
 
-    #region Sample Code from 'Navisworks .NET API Properties' by Xiaodong Liang
+    #region DumpProperties
+    // inspired by sample code from 'Navisworks .NET API Properties' by Xiaodong Liang
     // https://adndevblog.typepad.com/aec/2012/05/navisworks-net-api-properties.html
 
+    /// <summary>
+    /// Dump all properties from the given model item
+    /// </summary>
     public static void DumpProperties( ModelItem mi )
     {
       PropertyCategoryCollection pcs = mi.PropertyCategories;
@@ -50,18 +149,22 @@ namespace NwGeoPrimitives
         foreach( DataProperty dp in pc.Properties )
         {
           VariantData v = dp.Value;
+          VariantDataType t = v.DataType;
           if( v.IsDateTime )
           {
             Debug.Print( "  {0} ({1}) = {2}",
               dp.DisplayName, dp.Name,
               v.ToDateTime().ToShortTimeString() );
           }
+          else if( v.IsDisplayString )
+          {
+            Debug.Print( "  {0} ({1}) = {2}",
+              dp.DisplayName, dp.Name, v.ToDisplayString() );
+          }
           else
-          { // if( v.IsDisplayString )
-            {
-              Debug.Print( "  {0} ({1}) = {2}",
-                dp.DisplayName, dp.Name, v );
-            }
+          {
+            Debug.Print( "  {0} ({1}) data type {2}",
+              dp.DisplayName, dp.Name, t.ToString() );
           }
         }
       }
