@@ -48,7 +48,7 @@ namespace NwGeoPrimitives
         Debug.Print( "  {0}: {1}", model.FileName, mis.Count() );
         foreach( ModelItem mi in mis )
         {
-          Debug.Print( "    {0}: {1} bb {2}", 
+          Debug.Print( "    {0} bb {1}", 
             mi.ClassDisplayName, 
             Util.BoundingBoxString( mi.BoundingBox() ) );
         }
