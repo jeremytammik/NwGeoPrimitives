@@ -8,7 +8,9 @@ namespace NwGeoPrimitives
 {
   class RvtProperties
   {
-    object GetPropertyValue( DataProperty dp, bool return_string )
+    public static object GetPropertyValue( 
+      DataProperty dp, 
+      bool return_string )
     {
       VariantData v = dp.Value;
       VariantDataType t = v.DataType;
@@ -98,6 +100,34 @@ namespace NwGeoPrimitives
       return o;
     }
 
+    /// <summary>
+    /// Dump all properties from the given model item
+    /// </summary>
+    public static void DumpProperties( ModelItem mi )
+    {
+      // inspired by sample code from 
+      // 'Navisworks .NET API Properties' by Xiaodong Liang
+      // https://adndevblog.typepad.com/aec/2012/05/navisworks-net-api-properties.html
+
+      PropertyCategoryCollection pcs = mi.PropertyCategories;
+      int nPropertyCategories = pcs.Count<PropertyCategory>();
+      Debug.Print( "{0} property categories:" );
+      foreach( PropertyCategory pc in pcs )
+      {
+        Debug.Print( "{0} ({1})", pc.DisplayName, pc.Name );
+
+        foreach( DataProperty dp in pc.Properties )
+        {
+          VariantData v = dp.Value;
+          VariantDataType t = v.DataType;
+
+          Debug.Print( "  {0} ({1}) = {2}",
+            dp.DisplayName, dp.Name,
+            GetPropertyValue( dp, true ) );
+        }
+      }
+    }
+
     // Properties seen on a Revit family instance:
     //
     // Item( LcOaNode)
@@ -130,46 +160,8 @@ namespace NwGeoPrimitives
         dp_ElementId.Value.ToDisplayString() );
     }
 
-    #region DumpProperties
-    // inspired by sample code from 'Navisworks .NET API Properties' by Xiaodong Liang
-    // https://adndevblog.typepad.com/aec/2012/05/navisworks-net-api-properties.html
-
-    /// <summary>
-    /// Dump all properties from the given model item
-    /// </summary>
-    public static void DumpProperties( ModelItem mi )
-    {
-      PropertyCategoryCollection pcs = mi.PropertyCategories;
-      int nPropertyCategories = pcs.Count<PropertyCategory>();
-      Debug.Print( "{0} property categories:" );
-      foreach( PropertyCategory pc in pcs )
-      {
-        Debug.Print( "{0} ({1})", pc.DisplayName, pc.Name );
-
-        foreach( DataProperty dp in pc.Properties )
-        {
-          VariantData v = dp.Value;
-          VariantDataType t = v.DataType;
-          if( v.IsDateTime )
-          {
-            Debug.Print( "  {0} ({1}) = {2}",
-              dp.DisplayName, dp.Name,
-              v.ToDateTime().ToShortTimeString() );
-          }
-          else if( v.IsDisplayString )
-          {
-            Debug.Print( "  {0} ({1}) = {2}",
-              dp.DisplayName, dp.Name, v.ToDisplayString() );
-          }
-          else
-          {
-            Debug.Print( "  {0} ({1}) data type {2}",
-              dp.DisplayName, dp.Name, t.ToString() );
-          }
-        }
-      }
-    }
-
+    #region Sample code
+    /*
     void getProperty()
     {
       Document oDoc =
@@ -228,6 +220,7 @@ namespace NwGeoPrimitives
       Debug.Write(
           dp_DWGHandle.Value.ToString() );
     }
+    */
     #endregion // Sample Code from 'Navisworks .NET API Properties' by Xiaodong Liang
   }
 }
