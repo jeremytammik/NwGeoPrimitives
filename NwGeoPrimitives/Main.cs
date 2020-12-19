@@ -31,9 +31,9 @@ namespace NwGeoPrimitives
       Point3D max = bb.Max;
       int nModels = models.Count;
 
-      Debug.Print( "{0}: sheet {1}, bounding box {2}, {3} model{4}",
+      Debug.Print( "{0}: sheet {1}, bounding box {2}, {3} model{4}{5}",
         title, currentSheetId, Util.BoundingBoxString( bb ),
-        nModels, Util.PluralSuffix( nModels ) );
+        nModels, Util.PluralSuffix( nModels ), Util.DotOrColon( nModels ) );
 
       // First attempt, based on Navisworks-Geometry-Primitives,
       // using walkNode oState.CurrentPartition:
@@ -46,7 +46,7 @@ namespace NwGeoPrimitives
       {
         ModelItem rootItem = model.RootItem;
         ModelItemEnumerableCollection mis = rootItem.DescendantsAndSelf;
-        Debug.Print( "{0}: {1}", model.FileName, mis.Count() );
+        Debug.Print( "  {0}: {1}", model.FileName, mis.Count() );
       }
       return 0;
     }
