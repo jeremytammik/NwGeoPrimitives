@@ -42,40 +42,46 @@ namespace NwGeoPrimitives
       //WalkPartition wp = new WalkPartition();
       //wp.Execute();
 
-      List<string> Categories = new List<string>();
+      // Second attempt, retrieving root item descendants:
+
+      //List<string> Categories = new List<string>();
 
       foreach( Model model in models )
       {
         ModelItem rootItem = model.RootItem;
         ModelItemEnumerableCollection mis = rootItem.DescendantsAndSelf;
-        Debug.Print( "  {0}: {1} model items", model.FileName, mis.Count() );
-        List<ModelItem> migeos = new List<ModelItem>();
-        foreach( ModelItem mi in mis )
+        int n = mis.Count();
+        Debug.Print( "  {0}: {1} model items", model.FileName, n );
+        if( 50 > n )
         {
-          Debug.Print(
-            "    '{0}' '{1}' '{2}' has geo {3}", 
-            mi.DisplayName, mi.ClassDisplayName, 
-            mi.ClassName, mi.HasGeometry );
-
-          if( mi.HasGeometry )
+          List<ModelItem> migeos = new List<ModelItem>();
+          foreach( ModelItem mi in mis )
           {
-            migeos.Add( mi );
+            Debug.Print(
+              "    '{0}' '{1}' '{2}' has geo {3}",
+              mi.DisplayName, mi.ClassDisplayName,
+              mi.ClassName, mi.HasGeometry );
+
+            if( mi.HasGeometry )
+            {
+              migeos.Add( mi );
+            }
           }
-        }
-        Debug.Print( "  {0} model items have geometry:", migeos.Count() );
-        foreach( ModelItem mi in migeos )
-        {
-          Debug.Print(
-            "    '{0}' '{1}' '{2}' {3} bb {4}",
-            mi.DisplayName, mi.ClassDisplayName,
-            mi.ClassName, mi.HasGeometry,
-            Util.BoundingBoxString( mi.BoundingBox() ) );
-
-          if( "Floor" == mi.DisplayName )
+          Debug.Print( "  {0} model items have geometry:", migeos.Count() );
+          foreach( ModelItem mi in migeos )
           {
-            RvtProperties.DumpProperties( mi );
-            RvtProperties props = new RvtProperties( mi );
-            int id = props.ElementId;
+            Debug.Print(
+              "    '{0}' '{1}' '{2}' {3} bb {4}",
+              mi.DisplayName, mi.ClassDisplayName,
+              mi.ClassName, mi.HasGeometry,
+              Util.BoundingBoxString( mi.BoundingBox() ) );
+
+            if( "Floor" == mi.DisplayName )
+            {
+              RvtProperties.DumpProperties( mi );
+              RvtProperties props = new RvtProperties( mi );
+              int id = props.ElementId;
+            }
           }
         }
       }
