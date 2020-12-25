@@ -48,6 +48,8 @@ namespace NwGeoPrimitives
 
       //List<string> Categories = new List<string>();
 
+      Debug.Print( "Revit model item tree structure:" );
+
       foreach( Model model in models )
       {
         ModelItem rootItem = model.RootItem;
@@ -86,7 +88,7 @@ namespace NwGeoPrimitives
               = cat.Children;
             n = fams.Count();
             Debug.Print(
-              "    category {0}: '{1}' '{2}' '{3}' has {4} families",
+              "      category {0}: '{1}' '{2}' '{3}' has {4} families",
               iCategory++, cat.DisplayName, cat.ClassDisplayName,
               cat.ClassName, n );
 
@@ -98,7 +100,7 @@ namespace NwGeoPrimitives
                 = fam.Children;
               n = types.Count();
               Debug.Print(
-                "      family {0}: '{1}' '{2}' '{3}' has {4} types",
+                "        family {0}: '{1}' '{2}' '{3}' has {4} types",
                 iFamily++, fam.DisplayName, fam.ClassDisplayName,
                 fam.ClassName, n );
 
@@ -110,7 +112,7 @@ namespace NwGeoPrimitives
                   = typ.Children;
                 n = instances.Count();
                 Debug.Print(
-                  "      type {0}: '{1}' '{2}' '{3}' has {4} instances",
+                  "          type {0}: '{1}' '{2}' '{3}' has {4} instances",
                   iType++, typ.DisplayName, typ.ClassDisplayName,
                   typ.ClassName, n );
 
@@ -122,7 +124,7 @@ namespace NwGeoPrimitives
                     = inst.Children;
                   n = children.Count();
                   Debug.Print(
-                    "      instance {0}: '{1}' '{2}' '{3}' has {4} children",
+                    "            instance {0}: '{1}' '{2}' '{3}' has {4} children",
                     iInst++, typ.DisplayName, typ.ClassDisplayName,
                     typ.ClassName, n );
                 }
