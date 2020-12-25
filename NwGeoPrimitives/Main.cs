@@ -61,72 +61,63 @@ namespace NwGeoPrimitives
         Debug.Print( "  {0}: {1} model items", 
           model.FileName, n );
 
-        List<ModelItem> layers
-          = new List<ModelItem>( 
-            mis.Where<ModelItem>( 
-              mi => mi.IsLayer ) );
+        List<ItemData> layers
+          = new List<ItemData>( mis
+            .Where<ModelItem>( mi => mi.IsLayer )
+            .Select<ModelItem, ItemData>( 
+              mi => new ItemData( mi ) ) );
 
         n = layers.Count();
         Debug.Print( "  {0} layers", n );
         int iLayer = 0;
 
-        foreach( ModelItem layer in layers )
+        foreach( ItemData layer in layers )
         {
-          ModelItemEnumerableCollection cats
-            = layer.Children;
+          List<ItemData> cats = layer.Children;
           n = cats.Count();
           Debug.Print(
-            "    layer {0}: '{1}' '{2}' '{3}' has {4} categories",
-            iLayer++, layer.DisplayName, layer.ClassDisplayName,
-            layer.ClassName, n );
+            "    {0}: {1} has {2} categories",
+            iLayer++, layer, n );
 
           int iCategory = 0;
 
-          foreach( ModelItem cat in cats )
+          foreach( ItemData cat in cats )
           {
-            ModelItemEnumerableCollection fams
-              = cat.Children;
+            List<ItemData> fams = cat.Children;
             n = fams.Count();
             Debug.Print(
-              "      category {0}: '{1}' '{2}' '{3}' has {4} families",
-              iCategory++, cat.DisplayName, cat.ClassDisplayName,
-              cat.ClassName, n );
+              "      {0}: {1} has {2} families",
+              iCategory++, cat, n );
 
             int iFamily = 0;
 
-            foreach( ModelItem fam in fams )
+            foreach( ItemData fam in fams )
             {
-              ModelItemEnumerableCollection types
-                = fam.Children;
+              List<ItemData> types = fam.Children;
               n = types.Count();
               Debug.Print(
-                "        family {0}: '{1}' '{2}' '{3}' has {4} types",
-                iFamily++, fam.DisplayName, fam.ClassDisplayName,
-                fam.ClassName, n );
+                "        {0}: {1} has {2} types",
+                iFamily++, fam, n );
 
               int iType = 0;
 
-              foreach( ModelItem typ in types )
+              foreach( ItemData typ in types )
               {
-                ModelItemEnumerableCollection instances
-                  = typ.Children;
+                List<ItemData> instances = typ.Children;
                 n = instances.Count();
                 Debug.Print(
-                  "          type {0}: '{1}' '{2}' '{3}' has {4} instances",
-                  iType++, typ.DisplayName, typ.ClassDisplayName,
-                  typ.ClassName, n );
+                  "          {0}: {1} has {2} instances",
+                  iType++, typ, n );
 
                 int iInst = 0;
 
-                foreach( ModelItem inst in instances )
+                foreach( ItemData inst in instances )
                 {
-                  ModelItemEnumerableCollection children
-                    = inst.Children;
+                  List<ItemData> children = inst.Children;
                   n = children.Count();
                   Debug.Print(
-                    "            instance {0}: '{1}' '{2}' '{3}' has {4} children",
-                    iInst++, typ.DisplayName, typ.ClassDisplayName,
-                    typ.ClassName, n );
+                    "            {0}: {1} has {2} children",
+                    iInst++, inst, n );
                 }
               }
             }

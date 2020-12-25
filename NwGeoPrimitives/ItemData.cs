@@ -1,7 +1,5 @@
 ﻿#region Namespaces
 using Autodesk.Navisworks.Api;
-using Autodesk.Navisworks.Api.DocumentParts;
-using Autodesk.Navisworks.Api.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -37,7 +35,7 @@ namespace NwGeoPrimitives
     public string DisplayName { get; }
     public string ClassName { get; }
     public string ClassDisplayName { get; }
-    public IEnumerable<ItemData> Children { get; }
+    public List<ItemData> Children { get; }
     public bool HasGeometry { get; }
     public Guid InstanceGuid { get; }
 
@@ -48,6 +46,9 @@ namespace NwGeoPrimitives
       ClassDisplayName = mi.ClassDisplayName;
       HasGeometry = mi.HasGeometry;
       InstanceGuid = mi.InstanceGuid;
+      Children = new List<ItemData>( 
+        mi.Children.Select<ModelItem, ItemData>(
+          i => new ItemData( i ) ) );
 
       Debug.Assert( ClassName.StartsWith( "LcRevit" ), 
         "expected Revit object ClassName prefix" );
