@@ -153,10 +153,13 @@ namespace NwGeoPrimitives
         = pc_Item.Properties.FindPropertyByName(
           DataPropertyNames.ItemSourceFileName );
 
-      string source_filename = dp.Value.ToDisplayString();
+      if( null != dp )
+      {
+        string source_filename = dp.Value.ToDisplayString();
 
-      Debug.Assert( source_filename.EndsWith( ".rvt" ), 
-        "expected Revit source file" );
+        Debug.Assert( source_filename.EndsWith( ".rvt" ),
+          "expected Revit source file" );
+      }
 
       PropertyCategory pc_Element
         = mi.PropertyCategories

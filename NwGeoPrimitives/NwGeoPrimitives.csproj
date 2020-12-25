@@ -53,6 +53,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ItemData.cs" />
     <Compile Include="IterateModels.cs" />
     <Compile Include="RvtProperties.cs" />
     <Compile Include="WalkPartition.cs" />
