@@ -10,6 +10,8 @@ namespace NwGeoPrimitives
 {
   class ItemData
   {
+    static public int InstanceCount = 0;
+
     //Layers:
     //  ClassDisplayName "Levels: ..."
     //  ClassName LcRevitLayer
@@ -50,8 +52,10 @@ namespace NwGeoPrimitives
         mi.Children.Select<ModelItem, ItemData>(
           i => new ItemData( i ) ) );
 
-      Debug.Assert( ClassName.StartsWith( "LcRevit" ), 
-        "expected Revit object ClassName prefix" );
+      //Debug.Assert( ClassName.StartsWith( "LcRevit" ), 
+      //  "expected Revit object ClassName prefix" );
+
+      ++InstanceCount;
     }
 
     public override string ToString()
