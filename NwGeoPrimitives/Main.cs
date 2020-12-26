@@ -61,6 +61,8 @@ namespace NwGeoPrimitives
         Debug.Print( "  {0}: {1} model items", 
           model.FileName, n );
 
+        ItemData.InstanceCount = 0;
+
         List<ItemData> layers
           = new List<ItemData>( mis
             .Where<ModelItem>( mi => mi.IsLayer )
@@ -68,7 +70,10 @@ namespace NwGeoPrimitives
               mi => new ItemData( mi ) ) );
 
         n = layers.Count();
-        Debug.Print( "  {0} layers", n );
+        Debug.Print( 
+          "  {0} layers containing {1} hierarchical model items", 
+          n, ItemData.InstanceCount );
+
         int iLayer = 0;
 
         foreach( ItemData layer in layers )
@@ -113,11 +118,23 @@ namespace NwGeoPrimitives
 
                 foreach( ItemData inst in instances )
                 {
-                  List<ItemData> children = inst.Children;
-                  n = children.Count();
+                  List<ItemData> subinsts = inst.Children;
+                  n = subinsts.Count();
                   Debug.Print(
-                    "            {0}: {1} has {2} children",
+                    "            {0}: {1} has {2} subinstances",
                     iInst++, inst, n );
+
+                  int iSubinst = 0;
+
+                  foreach( ItemData subinst in subinsts )
+                  {
+                    List<ItemData> children = subinst.Children;
+                    n = children.Count();
+                    Debug.Print(
+                      "            {0}: {1} has {2} children",
+                      iSubinst++, inst, n );
+                  }
+
                 }
               }
             }
