@@ -51,23 +51,27 @@ namespace NwGeoPrimitives
 
       foreach( Model model in models )
       {
+        string model_filename = Path.GetFileName( 
+          model.FileName );
+
         ModelItem rootItem = model.RootItem;
 
         ModelItemEnumerableCollection mis 
           = rootItem.DescendantsAndSelf;
 
         n = mis.Count();
-        Debug.Print( "\nModel {0} contqains {1} model items:\n", 
-          model.FileName, n );
+
+        Debug.Print( 
+          "\nModel {0} contains {1} model items:\n",
+          model_filename, n );
 
         ItemTree mitree = new ItemTree( mis );
 
         string path = "C:/tmp/" 
-          + model.FileName.Replace( 
-            ".nwd", ".txt" );
+          + model_filename.Replace( ".nwd", ".txt" );
 
-        using( StreamWriter writer = new StreamWriter( 
-          path ) )
+        using( StreamWriter writer 
+          = new StreamWriter( path ) )
         {
           mitree.WriteTo( writer );
         }
