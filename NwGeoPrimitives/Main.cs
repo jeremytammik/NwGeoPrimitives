@@ -54,6 +54,9 @@ namespace NwGeoPrimitives
         string model_filename = Path.GetFileName( 
           model.FileName );
 
+        string path = "C:/tmp/"
+          + model_filename.Replace( ".nwd", ".txt" );
+
         ModelItem rootItem = model.RootItem;
 
         ModelItemEnumerableCollection mis 
@@ -62,13 +65,10 @@ namespace NwGeoPrimitives
         n = mis.Count();
 
         Debug.Print( 
-          "\nModel {0} contains {1} model items:\n",
-          model_filename, n );
+          "\nModel {0} contains {1} model items listed in '{2}'\n",
+          model_filename, n, path );
 
         ItemTree mitree = new ItemTree( mis );
-
-        string path = "C:/tmp/" 
-          + model_filename.Replace( ".nwd", ".txt" );
 
         using( StreamWriter writer 
           = new StreamWriter( path ) )

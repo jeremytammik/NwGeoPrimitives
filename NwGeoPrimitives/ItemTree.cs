@@ -40,7 +40,7 @@ namespace NwGeoPrimitives
     {
       List<ItemData> subinsts = d.Children;
       int n = subinsts.Count();
-      w.Write( "{0}{1}: {2} has {3} subinstances",
+      w.WriteLine( "{0}{1}: {2} has {3} subinstances",
         Indent( level ), i, d, n );
 
       int iSubinst = 0;
@@ -56,7 +56,7 @@ namespace NwGeoPrimitives
       //int indentation_level = 0;
 
       int n = _layers.Count();
-      Debug.Print(
+      w.WriteLine(
         "{0}{1} layers containing {2} hierarchical model items",
         Indent( 0 ), n, ItemData.InstanceCount );
 
@@ -67,7 +67,7 @@ namespace NwGeoPrimitives
       {
         List<ItemData> cats = layer.Children;
         n = cats.Count();
-        w.Write( "{0}{1}: {2} has {3} categories",
+        w.WriteLine( "{0}{1}: {2} has {3} categories",
           Indent( 1 ), 
           iLayer++, layer, n );
 
@@ -77,7 +77,7 @@ namespace NwGeoPrimitives
         {
           List<ItemData> fams = cat.Children;
           n = fams.Count();
-          w.Write( "{0}{1}: {2} has {3} families",
+          w.WriteLine( "{0}{1}: {2} has {3} families",
             Indent( 2 ), 
             iCategory++, cat, n );
 
@@ -87,7 +87,7 @@ namespace NwGeoPrimitives
           {
             List<ItemData> types = fam.Children;
             n = types.Count();
-            w.Write( "{0}{1}: {2} has {3} types",
+            w.WriteLine( "{0}{1}: {2} has {3} types",
               Indent( 3 ),
               iFamily++, fam, n );
 
@@ -97,7 +97,7 @@ namespace NwGeoPrimitives
             {
               List<ItemData> instances = typ.Children;
               n = instances.Count();
-              w.Write( "{0}{1}: {2} has {3} instances",
+              w.WriteLine( "{0}{1}: {2} has {3} instances",
                 Indent( 4 ),
                 iType++, typ, n );
 
@@ -107,7 +107,7 @@ namespace NwGeoPrimitives
               {
                 List<ItemData> subinsts = inst.Children;
                 n = subinsts.Count();
-                w.Write( "{0}{1}: {2} has {3} subinstances",
+                w.WriteLine( "{0}{1}: {2} has {3} subinstances",
                   Indent( 5 ),
                   iInst++, inst, n );
 
