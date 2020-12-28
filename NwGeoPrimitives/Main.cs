@@ -62,11 +62,12 @@ namespace NwGeoPrimitives
 
         ItemTree mitree = new ItemTree( mis );
 
-        string output_filename = model.FileName
-          .Replace( ".nwd", ".txt" );
+        string path = "C:/tmp/" 
+          + model.FileName.Replace( 
+            ".nwd", ".txt" );
 
-        using( StreamWriter writer
-          = new StreamWriter( output_filename ) )
+        using( StreamWriter writer = new StreamWriter( 
+          path ) )
         {
           mitree.WriteTo( writer );
         }
