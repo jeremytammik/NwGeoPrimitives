@@ -26,29 +26,49 @@ namespace NwGeoPrimitives
       nItems = ItemData.InstanceCount - n;
     }
 
-    string Indent( int level )
+    static string Indent( int level )
     {
       const int indent_step = 2;
       return new string( ' ', level * indent_step );
     }
 
+    static void Recurse( 
+      StreamWriter w, 
+      int level, 
+      int i, 
+      ItemData d )
+    {
+      List<ItemData> subinsts = d.Children;
+      int n = subinsts.Count();
+      w.Write( "{0}{1}: {2} has {3} subinstances",
+        Indent( level ), i, d, n );
+
+      int iSubinst = 0;
+
+      foreach( ItemData subinst in subinsts )
+      {
+        Recurse( w, level + 1, iSubinst, subinst );
+      }
+    }
+
     public void WriteTo( StreamWriter w )
     {
-      int indentation_level = 0;
+      //int indentation_level = 0;
 
       int n = _layers.Count();
       Debug.Print(
         "{0}{1} layers containing {2} hierarchical model items",
-        Indent( indentation_level ), n, ItemData.InstanceCount );
+        Indent( 0 ), n, ItemData.InstanceCount );
 
+      //++indentation_level;
       int iLayer = 0;
 
       foreach( ItemData layer in _layers )
       {
         List<ItemData> cats = layer.Children;
         n = cats.Count();
-        w.Write( "    {0}{1}: {2} has {3} categories",
-          Indent( indentation_level ), 
+        w.Write( "{0}{1}: {2} has {3} categories",
+          Indent( 1 ), 
           iLayer++, layer, n );
 
         int iCategory = 0;
@@ -57,8 +77,8 @@ namespace NwGeoPrimitives
         {
           List<ItemData> fams = cat.Children;
           n = fams.Count();
-          w.Write( "    {0}{1}: {2} has {3} families",
-            Indent( indentation_level ), 
+          w.Write( "{0}{1}: {2} has {3} families",
+            Indent( 2 ), 
             iCategory++, cat, n );
 
           int iFamily = 0;
@@ -67,8 +87,8 @@ namespace NwGeoPrimitives
           {
             List<ItemData> types = fam.Children;
             n = types.Count();
-            w.Write( "    {0}{1}: {2} has {3} types",
-              Indent( indentation_level ),
+            w.Write( "{0}{1}: {2} has {3} types",
+              Indent( 3 ),
               iFamily++, fam, n );
 
             int iType = 0;
@@ -77,8 +97,8 @@ namespace NwGeoPrimitives
             {
               List<ItemData> instances = typ.Children;
               n = instances.Count();
-              w.Write( "    {0}{1}: {2} has {3} instances",
-                Indent( indentation_level ),
+              w.Write( "{0}{1}: {2} has {3} instances",
+                Indent( 4 ),
                 iType++, typ, n );
 
               int iInst = 0;
@@ -87,19 +107,15 @@ namespace NwGeoPrimitives
               {
                 List<ItemData> subinsts = inst.Children;
                 n = subinsts.Count();
-                w.Write( "    {0}{1}: {2} has {3} subinstances",
-                  Indent( indentation_level ),
+                w.Write( "{0}{1}: {2} has {3} subinstances",
+                  Indent( 5 ),
                   iInst++, inst, n );
 
                 int iSubinst = 0;
 
                 foreach( ItemData subinst in subinsts )
                 {
-                  List<ItemData> children = subinst.Children;
-                  n = children.Count();
-                  w.Write( "    {0}{1}: {2} has {3} children",
-                    Indent( indentation_level ),
-                    iSubinst++, inst, n );
+                  Recurse( w, 6, iSubinst++, subinst );
                 }
               }
             }
