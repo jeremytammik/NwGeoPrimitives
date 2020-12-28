@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="ItemData.cs" />
     <Compile Include="IterateModels.cs" />
+    <Compile Include="ItemTree.cs" />
     <Compile Include="RvtProperties.cs" />
     <Compile Include="WalkPartition.cs" />
     <Compile Include="Main.cs" />

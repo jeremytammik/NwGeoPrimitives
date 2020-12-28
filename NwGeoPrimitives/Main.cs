@@ -4,6 +4,7 @@ using Autodesk.Navisworks.Api.DocumentParts;
 using Autodesk.Navisworks.Api.Plugins;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 #endregion // Namespaces
 
@@ -34,7 +35,7 @@ namespace NwGeoPrimitives
       
       n = models.Count;
 
-      Debug.Print( "{0}: sheet {1}, bounding box {2}, {3} model{4}{5}",
+      Debug.Print( "\n{0}: sheet {1}, bounding box {2}, {3} model{4}{5}\n",
         title, currentSheetId, Util.BoundingBoxString( bb ),
         n, Util.PluralSuffix( n ), Util.DotOrColon( n ) );
 
@@ -46,9 +47,7 @@ namespace NwGeoPrimitives
 
       // Second attempt, retrieving root item descendants:
 
-      //List<string> Categories = new List<string>();
-
-      Debug.Print( "Revit model item tree structure:" );
+      Debug.Print( "Model item tree structure:" );
 
       foreach( Model model in models )
       {
@@ -58,9 +57,21 @@ namespace NwGeoPrimitives
           = rootItem.DescendantsAndSelf;
 
         n = mis.Count();
-        Debug.Print( "  {0}: {1} model items", 
+        Debug.Print( "\nModel {0} contqains {1} model items:\n", 
           model.FileName, n );
 
+        ItemTree mitree = new ItemTree( mis );
+
+        string output_filename = model.FileName
+          .Replace( ".nwd", ".txt" );
+
+        using( StreamWriter writer
+          = new StreamWriter( output_filename ) )
+        {
+          mitree.WriteTo( writer );
+        }
+
+        /*
         ItemData.InstanceCount = 0;
 
         List<ItemData> layers
@@ -131,15 +142,15 @@ namespace NwGeoPrimitives
                     List<ItemData> children = subinst.Children;
                     n = children.Count();
                     Debug.Print(
-                      "            {0}: {1} has {2} children",
+                      "              {0}: {1} has {2} children",
                       iSubinst++, inst, n );
                   }
-
                 }
               }
             }
           }
         }
+        */
 
         if( 50 > n )
         {
