@@ -43,11 +43,14 @@ namespace NwGeoPrimitives
       w.WriteLine( "{0}{1}: {2} has {3} subinstances",
         Indent( level ), i, d, n );
 
-      int iSubinst = 0;
-
-      foreach( ItemData subinst in subinsts )
+      if( 10 > level )
       {
-        Recurse( w, level + 1, iSubinst, subinst );
+        int iSubinst = 0;
+
+        foreach( ItemData subinst in subinsts )
+        {
+          Recurse( w, level + 1, iSubinst, subinst );
+        }
       }
     }
 
@@ -71,6 +74,8 @@ namespace NwGeoPrimitives
           Indent( 1 ), 
           iLayer++, layer, n );
 
+        w.Flush();
+
         int iCategory = 0;
 
         foreach( ItemData cat in cats )
@@ -80,6 +85,8 @@ namespace NwGeoPrimitives
           w.WriteLine( "{0}{1}: {2} has {3} families",
             Indent( 2 ), 
             iCategory++, cat, n );
+
+          w.Flush();
 
           int iFamily = 0;
 
@@ -91,6 +98,8 @@ namespace NwGeoPrimitives
               Indent( 3 ),
               iFamily++, fam, n );
 
+            w.Flush();
+
             int iType = 0;
 
             foreach( ItemData typ in types )
@@ -101,6 +110,8 @@ namespace NwGeoPrimitives
                 Indent( 4 ),
                 iType++, typ, n );
 
+              w.Flush();
+
               int iInst = 0;
 
               foreach( ItemData inst in instances )
@@ -110,6 +121,8 @@ namespace NwGeoPrimitives
                 w.WriteLine( "{0}{1}: {2} has {3} subinstances",
                   Indent( 5 ),
                   iInst++, inst, n );
+
+                w.Flush();
 
                 int iSubinst = 0;
 
