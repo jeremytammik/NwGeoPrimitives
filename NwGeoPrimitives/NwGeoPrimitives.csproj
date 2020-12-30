@@ -65,5 +65,11 @@
   <ItemGroup>
     <Content Include="PackageContents.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="install.bat" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(ProjectDir)install.bat $(ProjectDir)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -31,7 +31,7 @@ namespace NwGeoPrimitives
       BoundingBox3D bb = doc.GetBoundingBox( ignoreHidden );
       Point3D min = bb.Min;
       Point3D max = bb.Max;
-      int i, n;
+      int n;
       
       n = models.Count;
 
